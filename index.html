@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>মোবাইল কোর্ট ফটোকার্ড জেনারেটর</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com/3.4.17"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+  :root { box-sizing: border-box; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+  body { font-family: 'Hind Siliguri', 'Noto Sans Bengali', sans-serif; margin: 0; background: #f1f5f9; color: #0f172a; }
+  .field { width: 100%; border: 1px solid #cbd5e1; border-radius: 8px; padding: 8px 10px; background: #fff; color: #0f172a; font-size: 15px; }
+  .field:focus { outline: 2px solid #3b82f6; border-color: transparent; }
+  .lbl { display: block; font-size: 13px; font-weight: 600; margin: 12px 0 4px; color: #334155; }
+  .th-red    { --c1:#c8102e; --dk:69,10,10; --lt:#fee2e2; --on1:#fff; --ac:#fecaca; }
+  .th-green  { --c1:#0a7d3e; --dk:4,40,22;  --lt:#dcfce7; --on1:#fff; --ac:#bbf7d0; }
+  .th-yellow { --c1:#f5b800; --dk:60,38,4;  --lt:#fef3c7; --on1:#2a1a00; --ac:#fde68a; }
+  .tbtn { flex: 1; border: 2px solid #e2e8f0; border-radius: 10px; padding: 8px 4px; background: #fff; font-weight: 600; font-size: 14px; display: flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer; color: #0f172a; }
+  .tbtn.on { border-color: #0f172a; box-shadow: 0 0 0 2px #0f172a22; }
+  .dot { width: 16px; height: 16px; border-radius: 50%; }
+  #card { width: 1080px; height: 1350px; position: relative; overflow: hidden; font-family: 'Hind Siliguri', sans-serif; background: rgb(var(--dk)); }
+  .pre { white-space: pre-line; }
+  @media (prefers-color-scheme: dark) { body { background: #0f172a; color: #e2e8f0; } .lbl { color: #cbd5e1; } }
+</style>
+</head>
+<body>
+<div class="grid lg:grid-cols-[420px_1fr] min-h-screen">
+
+  <!-- বাম প্যানেল: ইনপুট -->
+  <aside class="bg-white text-slate-900 p-5 lg:h-screen lg:overflow-y-auto lg:sticky lg:top-0 border-r border-slate-200">
+    <h1 class="text-xl font-bold">মোবাইল কোর্ট ফটোকার্ড</h1>
+    <p class="text-sm text-slate-500">তথ্য দিন, ডানে লাইভ প্রিভিউ দেখুন।</p>
+
+    <span class="lbl">থিম</span>
+    <div class="flex gap-2" id="themes">
+      <button class="tbtn on" data-t="red"><span class="dot" style="background:#c8102e"></span>রেড-ভাইব</button>
+      <button class="tbtn" data-t="green"><span class="dot" style="background:#0a7d3e"></span>গ্রিন-ভাইব</button>
+      <button class="tbtn" data-t="yellow"><span class="dot" style="background:#f5b800"></span>ইয়োলো-ভাইব</button>
+    </div>
+
+    <span class="lbl">যে আইনে মোবাইল কোর্ট পরিচালনা করা হয়েছে</span>
+    <input class="field" id="law" value="মাদক দ্রব্য নিয়ন্ত্রন আইন ২০১৮ এর ৩৬ (০৫)">
+    <span class="lbl">তারিখ</span>
+    <input class="field" id="date" value="২৪-১১-২০২৬">
+    <span class="lbl">মোবাইল কোর্ট পরিচালনার স্থান</span>
+    <input class="field" id="place" value="দেলদুয়ার উপজেলা পরিষদ">
+    <span class="lbl">অপরাধ ও সময়/ঘটনার বর্ণনা</span>
+    <textarea class="field" id="desc" rows="5">অদ্য ২৫/১১/২০২৬ তারিখ রাত ৯:০০ ঘটিকার সময় ঘাটাইল উপজেলাধীন দেওপাড় ইউনিয়নের গজারিয়া বিলে অবৈধভাবে ট্রেজার মেশিন দিয়ে বালি ও মাটি উত্তোলনের অপরাধে।</textarea>
+    <div class="grid grid-cols-2 gap-3">
+      <div><span class="lbl">মামলার সংখ্যা</span><input class="field" id="cases" value="১"></div>
+      <div><span class="lbl">দণ্ডিত ব্যক্তি</span><input class="field" id="convicts" value="১"></div>
+    </div>
+    <span class="lbl">আসামীর নাম</span>
+    <input class="field" id="accused" value="মোঃ কামরুল ইসলাম">
+    <span class="lbl">দণ্ড</span>
+    <input class="field" id="penalty" value="১০০ টাকা ও (০৩) তিনমাসের বিনাশ্রম কারাদণ্ড">
+    <span class="lbl">ফুটার লেখা</span>
+    <input class="field" id="footer" value="জেলা প্রশাসন, টাঙ্গাইল">
+
+    <span class="lbl">ছবি (ঐচ্ছিক)</span>
+    <div class="space-y-2 text-sm">
+      <div class="flex items-center gap-2"><span class="w-24 shrink-0">ব্যাকগ্রাউন্ড</span><input type="file" accept="image/*" data-img="bg" class="min-w-0 flex-1 text-xs"><button class="clr text-red-600 text-xs" data-clr="bg">মুছুন</button></div>
+      <div class="flex items-center gap-2"><span class="w-24 shrink-0">ফ্রেম ছবি ১</span><input type="file" accept="image/*" data-img="p1" class="min-w-0 flex-1 text-xs"><button class="clr text-red-600 text-xs" data-clr="p1">মুছুন</button></div>
+      <div class="flex items-center gap-2"><span class="w-24 shrink-0">ফ্রেম ছবি ২</span><input type="file" accept="image/*" data-img="p2" class="min-w-0 flex-1 text-xs"><button class="clr text-red-600 text-xs" data-clr="p2">মুছুন</button></div>
+    </div>
+
+    <button id="dl" class="mt-6 w-full rounded-xl bg-slate-900 text-white font-semibold py-3 text-base">ছবি ডাউনলোড করুন (PNG)</button>
+    <p id="msg" class="text-xs text-slate-500 mt-2 min-h-[1rem]"></p>
+  </aside>
+
+  <!-- ডান প্যানেল: লাইভ প্রিভিউ -->
+  <main class="p-4 lg:p-6 flex items-start justify-center overflow-hidden">
+    <div id="stage" class="w-full flex justify-center">
+      <div id="scaler" style="transform-origin: top center;">
+        <div id="card" class="th-red">
+          <div id="bg" class="absolute inset-0" style="background-size:cover;background-position:center;"></div>
+          <div class="absolute inset-0" style="background:linear-gradient(180deg,rgba(var(--dk),.82) 0%,rgba(var(--dk),.6) 38%,rgba(var(--dk),.94) 100%)"></div>
+          <div class="absolute top-0 left-0 right-0" style="height:14px;background:var(--c1)"></div>
+
+          <div class="relative flex flex-col h-full" style="padding:52px 56px 40px;">
+            <div class="flex items-center justify-between">
+              <div style="background:var(--c1);color:var(--on1);font-size:30px;font-weight:700;padding:8px 28px;border-radius:999px;">মোবাইল কোর্ট</div>
+              <div style="background:rgba(255,255,255,.14);border:2px solid var(--ac);color:#fff;font-size:30px;font-weight:600;padding:8px 26px;border-radius:999px;" id="o-date"></div>
+            </div>
+
+            <div style="margin-top:34px;">
+              <div style="color:var(--ac);font-size:30px;font-weight:600;">গণপ্রজাতন্ত্রী বাংলাদেশ সরকার</div>
+              <div style="color:#fff;font-size:70px;font-weight:700;line-height:1.2;margin-top:6px;">মোবাইল কোর্টে দণ্ড প্রদান</div>
+              <div style="width:140px;height:8px;background:var(--c1);border-radius:8px;margin-top:16px;"></div>
+            </div>
+
+            <div id="photos" class="flex justify-center" style="gap:34px;margin-top:34px;">
+              <div id="f1" class="hidden" style="flex:1;max-width:460px;height:310px;background:#fff;padding:10px;border-radius:6px;transform:rotate(-2.5deg);box-shadow:0 14px 30px rgba(0,0,0,.5);"><img id="i1" alt="" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+              <div id="f2" class="hidden" style="flex:1;max-width:460px;height:310px;background:#fff;padding:10px;border-radius:6px;transform:rotate(2.5deg);box-shadow:0 14px 30px rgba(0,0,0,.5);"><img id="i2" alt="" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+            </div>
+
+            <div class="flex flex-col min-h-0" style="flex:1;margin-top:34px;background:#fff;border-radius:24px;padding:30px 36px;color:#111827;border-left:14px solid var(--c1);">
+              <div style="font-size:26px;font-weight:600;color:var(--c1);filter:brightness(.8);">প্রযোজ্য আইন</div>
+              <div id="o-law" style="font-size:34px;font-weight:700;line-height:1.3;"></div>
+
+              <div style="font-size:26px;font-weight:600;color:var(--c1);filter:brightness(.8);margin-top:14px;">স্থান</div>
+              <div id="o-place" style="font-size:32px;font-weight:600;line-height:1.3;"></div>
+
+              <div style="font-size:26px;font-weight:600;color:var(--c1);filter:brightness(.8);margin-top:14px;">অপরাধের বিবরণ</div>
+              <div id="o-desc" class="pre" style="font-size:30px;line-height:1.45;overflow:hidden;"></div>
+
+              <div class="flex" style="gap:16px;margin-top:auto;padding-top:18px;">
+                <div style="background:var(--lt);border-radius:16px;padding:10px 22px;text-align:center;">
+                  <div style="font-size:24px;font-weight:600;">মামলা</div>
+                  <div id="o-cases" style="font-size:44px;font-weight:700;line-height:1.1;"></div>
+                </div>
+                <div style="background:var(--lt);border-radius:16px;padding:10px 22px;text-align:center;">
+                  <div style="font-size:24px;font-weight:600;">দণ্ডিত</div>
+                  <div id="o-convicts" style="font-size:44px;font-weight:700;line-height:1.1;"></div>
+                </div>
+                <div style="flex:1;background:var(--lt);border-radius:16px;padding:10px 22px;">
+                  <div style="font-size:24px;font-weight:600;">আসামীর নাম</div>
+                  <div id="o-accused" style="font-size:38px;font-weight:700;line-height:1.25;"></div>
+                </div>
+              </div>
+              <div style="margin-top:16px;background:var(--c1);color:var(--on1);border-radius:16px;padding:14px 26px;">
+                <span style="font-size:26px;font-weight:600;">দণ্ড: </span>
+                <span id="o-penalty" style="font-size:36px;font-weight:700;"></span>
+              </div>
+            </div>
+
+            <div id="o-footer" class="text-center" style="color:var(--ac);font-size:28px;font-weight:600;margin-top:22px;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+(function () {
+  var W = 1080, H = 1350;
+  var card = document.getElementById('card');
+  var map = { law:'o-law', date:'o-date', place:'o-place', desc:'o-desc', cases:'o-cases', convicts:'o-convicts', accused:'o-accused', penalty:'o-penalty', footer:'o-footer' };
+  var theme = 'red';
+
+  function sync(id) { document.getElementById(map[id]).textContent = document.getElementById(id).value; }
+  Object.keys(map).forEach(function (id) {
+    sync(id);
+    document.getElementById(id).addEventListener('input', function () { sync(id); });
+  });
+
+  // থিম
+  document.querySelectorAll('#themes .tbtn').forEach(function (b) {
+    b.addEventListener('click', function () {
+      theme = b.dataset.t;
+      card.className = 'th-' + theme;
+      document.querySelectorAll('#themes .tbtn').forEach(function (x) { x.classList.toggle('on', x === b); });
+    });
+  });
+
+  // ছবি
+  var bgEl = document.getElementById('bg');
+  function setImg(kind, url) {
+    if (kind === 'bg') { bgEl.style.backgroundImage = url ? 'url(' + url + ')' : 'none'; return; }
+    var n = kind === 'p1' ? '1' : '2';
+    var img = document.getElementById('i' + n), fr = document.getElementById('f' + n);
+    if (url) { img.src = url; fr.classList.remove('hidden'); } else { img.removeAttribute('src'); fr.classList.add('hidden'); }
+  }
+  document.querySelectorAll('input[data-img]').forEach(function (inp) {
+    inp.addEventListener('change', function () {
+      var f = inp.files && inp.files[0]; if (!f) return;
+      var r = new FileReader();
+      r.onload = function () { setImg(inp.dataset.img, r.result); };
+      r.readAsDataURL(f);
+    });
+  });
+  document.querySelectorAll('.clr').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var k = b.dataset.clr; setImg(k, null);
+      document.querySelector('input[data-img="' + k + '"]').value = '';
+    });
+  });
+
+  // প্রিভিউ স্কেল
+  var stage = document.getElementById('stage'), scaler = document.getElementById('scaler');
+  function fit() {
+    var avail = stage.clientWidth || (window.innerWidth - 32);
+    var s = Math.min(1, avail / W);
+    var availH = window.innerHeight - 48;
+    if (window.innerWidth >= 1024) s = Math.min(s, availH / H);
+    scaler.style.transform = 'scale(' + s + ')';
+    scaler.style.width = W + 'px';
+    scaler.style.height = (H * s) + 'px';
+    scaler.style.marginBottom = '0px';
+    scaler.dataset.s = s;
+  }
+  window.addEventListener('resize', fit); fit();
+  if (window.ResizeObserver) new ResizeObserver(fit).observe(stage);
+
+  // ডাউনলোড
+  var msg = document.getElementById('msg'), btn = document.getElementById('dl');
+  function say(t) { msg.textContent = t; }
+  btn.addEventListener('click', async function () {
+    if (!window.html2canvas) { say('ইমেজ লাইব্রেরি লোড হয়নি, ইন্টারনেট সংযোগ দেখুন।'); return; }
+    btn.disabled = true; say('ছবি তৈরি হচ্ছে...');
+    try {
+      if (document.fonts && document.fonts.ready) await document.fonts.ready;
+      var canvas = await html2canvas(card, {
+        scale: 1, useCORS: true, backgroundColor: null, width: W, height: H, windowWidth: W + 600,
+        onclone: function (doc) {
+          var sc = doc.getElementById('scaler');
+          sc.style.transform = 'none'; sc.style.height = H + 'px';
+        }
+      });
+      var blob = await new Promise(function (res) { canvas.toBlob(res, 'image/png'); });
+      var name = 'mobile-court-' + theme + '-vibe.png';
+      var dl = null;
+      try { dl = window.claude && window.claude.use ? await window.claude.use('downloads') : null; } catch (e) {}
+      if (dl) { await dl.save({ filename: name, data: blob }); say('ডাউনলোড সম্পন্ন।'); }
+      else {
+        var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name;
+        document.body.appendChild(a); a.click(); a.remove(); say('ডাউনলোড সম্পন্ন।');
+      }
+    } catch (e) {
+      say(e && e.code === 'declined' ? 'ডাউনলোড বাতিল করা হয়েছে।' : 'ডাউনলোড করা যায়নি, আবার চেষ্টা করুন।');
+    }
+    btn.disabled = false;
+  });
+})();
+</script>
+</body>
+</html>
