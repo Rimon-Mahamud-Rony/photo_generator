@@ -27,13 +27,23 @@
 </style>
 </head>
 <body>
+  <header class="sticky top-0 z-20 h-[72px] flex items-center justify-between px-4 lg:px-6 bg-white text-slate-900 border-b border-slate-200 shadow-sm">
+  <div class="flex items-center gap-3 min-w-0">
+    <div class="min-w-0">
+      <div class="text-lg sm:text-xl font-bold leading-tight truncate">মোবাইল কোর্ট ফটো জেনারেটর</div>
+      <div class="hidden sm:block text-xs text-slate-500 truncate">সরকারি মোবাইল কোর্ট কার্যক্রম প্রচারের ফটোকার্ড তৈরির টুল</div>
+    </div>
+  </div>
+  <div class="text-xs text-slate-500 shrink-0 ml-3">
+    <a href="https://github.com/rimon-mahamud-rony" target="_blank" class="hover:underline">Developed by <span class="text-green-500">Rimon</span></a>
+  </div>
+</header>
 <div class="grid lg:grid-cols-[420px_1fr] min-h-screen">
-
   <!-- বাম প্যানেল: ইনপুট -->
   <aside class="bg-white text-slate-900 p-5 lg:h-screen lg:overflow-y-auto lg:sticky lg:top-0 border-r border-slate-200">
     <h1 class="text-xl font-bold">মোবাইল কোর্ট ফটোকার্ড</h1>
     <p class="text-sm text-slate-500 sm:hidden">তথ্য দিন, নিচে লাইভ প্রিভিউ দেখুন।</p>
-    <p class="text-sm text-slate-500 sm:block">তথ্য দিন, ডানে লাইভ প্রিভিউ দেখুন।</p>
+    <p class="text-sm text-slate-500 hidden sm:block">তথ্য দিন, ডানে লাইভ প্রিভিউ দেখুন।</p>
 
     <span class="lbl">থিম</span>
     <div class="flex gap-2" id="themes">
