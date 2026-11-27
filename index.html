@@ -5,23 +5,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>মোবাইল কোর্ট ফটোকার্ড জেনারেটর</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com/3.4.17"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
   :root { box-sizing: border-box; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
   html { scroll-padding-top: env(safe-area-inset-top, 0px); }
-  body { font-family: 'Hind Siliguri', 'Noto Sans Bengali', sans-serif; margin: 0; background: #f1f5f9; color: #0f172a; }
-  .field { width: 100%; border: 1px solid #cbd5e1; border-radius: 8px; padding: 8px 10px; background: #fff; color: #0f172a; font-size: 15px; }
+  body { font-family:'Noto Sans Bengali', sans-serif; margin: 0; background: #f1f5f9; color: #0f172a; }
+  .field { width: 100%; border: 1px solid #cbd5e1; border-radius: 2px; padding: 8px 10px; background: #fff; color: #0f172a; font-size: 15px; }
   .field:focus { outline: 2px solid #3b82f6; border-color: transparent; }
   .lbl { display: block; font-size: 13px; font-weight: 600; margin: 12px 0 4px; color: #334155; }
   .th-red    { --c1:#c8102e; --dk:69,10,10; --lt:#fee2e2; --on1:#fff; --ac:#fecaca; }
   .th-green  { --c1:#0a7d3e; --dk:4,40,22;  --lt:#dcfce7; --on1:#fff; --ac:#bbf7d0; }
   .th-yellow { --c1:#f5b800; --dk:60,38,4;  --lt:#fef3c7; --on1:#2a1a00; --ac:#fde68a; }
-  .tbtn { flex: 1; border: 2px solid #e2e8f0; border-radius: 10px; padding: 8px 4px; background: #fff; font-weight: 600; font-size: 14px; display: flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer; color: #0f172a; }
+  .tbtn { flex: 1; border: 2px solid #e2e8f0; border-radius: 0px; padding: 8px 4px; background: #fff; font-weight: 600; font-size: 14px; display: flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer; color: #0f172a; }
   .tbtn.on { border-color: #0f172a; box-shadow: 0 0 0 2px #0f172a22; }
-  .dot { width: 16px; height: 16px; border-radius: 50%; }
-  #card { width: 1080px; height: 1350px; position: relative; overflow: hidden; font-family: 'Hind Siliguri', sans-serif; background: rgb(var(--dk)); }
+  .dot { width: 16px; height: 16px; border-radius: 2%; }
+  #card { width: 1080px; height: 1350px; position: relative; overflow: hidden; font-family: 'Noto Sans Bengali', sans-serif; background: rgb(var(--dk)); }
   .pre { white-space: pre-line; }
   @media (prefers-color-scheme: dark) { body { background: #0f172a; color: #e2e8f0; } .lbl { color: #cbd5e1; } }
 </style>
@@ -31,14 +31,14 @@
   <div class="flex items-center gap-3 min-w-0">
     <div class="min-w-0">
       <div class="text-lg sm:text-xl font-bold leading-tight truncate">মোবাইল কোর্ট ফটো জেনারেটর</div>
-      <div class="hidden sm:block text-xs text-slate-500 truncate">সরকারি মোবাইল কোর্ট কার্যক্রম প্রচারের ফটোকার্ড তৈরির টুল</div>
+      <div class="hidden sm:block text-xs text-slate-400 truncate">জেলা প্রশাসন, টাঙ্গাইল এর মোবাইল কোর্ট কার্যক্রম প্রচারের ফটোকার্ড তৈরির টুল</div>
     </div>
   </div>
   <div class="text-xs text-slate-500 shrink-0 ml-3">
-    <a href="https://github.com/rimon-mahamud-rony" target="_blank" class="hover:underline">Developed by <span class="text-green-500">Rimon</span></a>
+    <a href="https://github.com/rimon-mahamud-rony" target="_blank" class="hover:bg-green-100 border-b border-green-600 p-[1px] rounded-0">Developed by <span class="text-green-500">Rimon</span></a>
   </div>
 </header>
-<div class="grid lg:grid-cols-[420px_1fr] min-h-screen">
+<div class="grid lg:grid-cols-[620px_1fr] min-h-screen">
   <!-- বাম প্যানেল: ইনপুট -->
   <aside class="bg-white text-slate-900 p-5 lg:h-screen lg:overflow-y-auto lg:sticky lg:top-0 border-r border-slate-200">
     <h1 class="text-xl font-bold">মোবাইল কোর্ট ফটোকার্ড</h1>
@@ -47,8 +47,8 @@
 
     <span class="lbl">থিম</span>
     <div class="flex gap-2" id="themes">
-      <button class="tbtn on" data-t="red"><span class="dot" style="background:#c8102e"></span>রেড-ভাইব</button>
-      <button class="tbtn" data-t="green"><span class="dot" style="background:#0a7d3e"></span>গ্রিন-ভাইব</button>
+      <button class="tbtn" data-t="red"><span class="dot" style="background:#c8102e"></span>রেড-ভাইব</button>
+      <button class="tbtn on" data-t="green"><span class="dot" style="background:#0a7d3e"></span>গ্রিন-ভাইব</button>
       <button class="tbtn" data-t="yellow"><span class="dot" style="background:#f5b800"></span>ইয়োলো-ভাইব</button>
     </div>
 
@@ -83,7 +83,7 @@
   </aside>
 
   <!-- ডান প্যানেল: লাইভ প্রিভিউ -->
-  <main class="p-4 lg:p-6 flex items-start justify-center overflow-hidden">
+  <main class="p-4 lg:p-6 flex items-start justify-center overflow-hidden" >
     <div id="stage" class="w-full flex justify-center">
       <div id="scaler" style="transform-origin: top center;">
         <div id="card" class="th-red">
